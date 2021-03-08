@@ -1,6 +1,7 @@
 import React,{useEffect} from 'react';
 import {  useHistory } from 'react-router-dom';
-
+import '@/ts_study/类型'
+import '@/ts_study/interface'
 
 export default function Test(){
     const h = useHistory();
@@ -11,7 +12,7 @@ export default function Test(){
 
     return (
         <div>
-            <h1 onClick={()=>history.go(-1)}>back------------------------</h1>
+            <h1 onClick={()=>h.go(-1)}>back------------------------</h1>
         </div>
     );
 }
