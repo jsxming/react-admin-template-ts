@@ -18,7 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+        "@/*": ["./src/*"], // 如果要使用index.tsx的，需要配置这个
+    }
   },
   "include": [
     "src"
