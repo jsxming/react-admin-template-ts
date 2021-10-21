@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Autor: 小明～
+ * @Date: 2021-09-02 17:31:40
+ * @LastEditors: 小明～
+ * @LastEditTime: 2021-10-21 17:43:09
+ */
 import { Method, ResponseType } from 'axios';
 
 export class PathConf {
@@ -17,8 +24,12 @@ interface IPaths {
     [propName: string]: PathConf;
 }
 
+
 const allApi: IPaths = {
     queryUsers: new PathConf('GET', '/user/all'),
+    login: new PathConf('POST', '/common/login'),
+    queryUserRole: new PathConf('GET', '/user/role'),
+    queryAuthAll: new PathConf('GET', '/auth/all'),
     // adf: new PathConf('GET', '/'),
     // adf2: new PathConf('GET', '/', true),
 };

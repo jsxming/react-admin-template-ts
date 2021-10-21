@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Autor: 小明～
+ * @Date: 2021-09-02 17:31:40
+ * @LastEditors: 小明～
+ * @LastEditTime: 2021-10-21 16:30:25
+ */
 import axios from 'axios';
 import { Obj } from '../typings/global';
 
@@ -16,7 +23,7 @@ function deleteInvalidParams(params: Obj) {
 
 
 const $http = axios.create({
-    // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:8888/v1' : 'http://www.skedu.vip/qbxyapi',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:8001/v1' : '',
     timeout: 15000,
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -30,6 +37,9 @@ $http.interceptors.request.use(
         // if (token) {
         //     config.headers['whale-auth'] = 'bearer ' + token;
         // }
+        console.log(localStorage.token);
+        config.headers['token'] = localStorage.token ||'';
+
         if (config.method === 'post') {
             config.data = deleteInvalidParams(config.data || {});
         } else {

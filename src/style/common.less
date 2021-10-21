@@ -1,3 +1,74 @@
-h1{
-    color: red;
+@import "./flex.less";
+
+.h-100 {
+    height: 100vh;
+}
+
+.w-100 {
+    width: 100vw;
+}
+
+.p-relative {
+    position: relative;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.abs-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/*单行溢出*/
+.text-clip {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.text-clip_2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.mx-auto {
+    margin: 0 auto;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix {
+    zoom: 1;
+
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+}
+
+.pointer {
+    cursor: pointer;
 }

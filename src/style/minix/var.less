@@ -1,0 +1,36 @@
+// flex布局
+.flex(@x: flex-start, @y: center, @wrap: nowrap, @dir: row) {
+    display: flex;
+    justify-content: @x;
+    align-items: @y;
+    flex-wrap: @wrap;
+    flex-direction: @dir;
+}
+
+
+.line-height(@val) {
+    height: @val;
+    line-height: @val;
+}
+
+
+/*多行溢出 手机端使用*/
+.text-clip-double(@num: 3) {
+    display: -webkit-box;
+    overflow: hidden;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: @num;
+}
+
+// 定位到html
+.p-fixed(@bg: #fff) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+    background-color: @bg;
+}
