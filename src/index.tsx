@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-20 11:41:46
+ * @LastEditTime: 2021-10-22 10:50:23
  */
 import React,{Suspense,lazy} from 'react';
 import ReactDOM from 'react-dom';
@@ -13,7 +13,8 @@ import './style/minix/fontsize.less';
 import {
     HashRouter as Router,
     Route,
-    Switch
+    Switch,
+    Link
 } from 'react-router-dom';
 
 import zhCN from 'antd/es/locale/zh_CN';
@@ -34,19 +35,15 @@ ReactDOM.render(
                 <Router>
                     <Switch>
                         <Route
-                            exact
-                            path="/"
-                        >
-                            <App />
-                        </Route>
-                        <Route
-                            component={lazy(()=>import('./pages/Test'))}
-                            path="/test"
-                        >
-                        </Route>
-                        <Route
                             component={lazy(()=>import('./pages/Login'))}
+                            exact
                             path="/login"
+                        >
+                        </Route>
+                        <Route
+                            component={lazy(()=>import('./App'))}
+
+                            path="/"
                         >
                         </Route>
                     </Switch>

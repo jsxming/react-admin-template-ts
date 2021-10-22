@@ -1,54 +1,131 @@
-/*
- * @Description:
- * @Autor: 小明～
- * @Date: 2021-10-21 16:39:34
- * @LastEditors: 小明～
- * @LastEditTime: 2021-10-21 17:21:48
- */
+import React, { useState } from 'react';
+import { Menu } from 'antd';
+import { Routes } from '@/routes/index';
+import { isArray } from '@/util/index';
+import { useHistory, useLocation } from 'react-router-dom';
+import { RouteItem } from '@/typings/route';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 
-import React from 'react';
-import {Layout,Menu} from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+
+const rootSubmenuKeys = ['/rbac'];
+
 const { SubMenu } = Menu;
-const { Sider } = Layout;
 
-export default function LayoutAside(){
+function hasChildren(route:RouteItem):boolean {
+    return isArray(route.children) && !route.hiddenChildren;
+}
+
+function hasIcon(item:RouteItem) {
+    return item.icon ? item.icon : null;
+}
+
+
+function createMenuItem(item:RouteItem) {
+    return <Menu.Item
+        icon={hasIcon(item)}
+        key={item.path}
+    >
+        {item.title}
+    </Menu.Item>;
+}
+
+
+function createSubMenu(route:RouteItem) {
+    return <SubMenu
+        icon={route.icon}
+        key={route.path}
+        title={route.title}
+    >
+        {
+            route.children?.map((item) => {
+                //两级导航
+                // return createMenuItem(item);
+                //多级导航用下面的代码 ！！！
+                if (hasChildren(item)) {
+                return createSubMenu(item);
+                } else {
+                return createMenuItem(item);
+                }
+                })
+        }
+    </SubMenu>;
+}
+
+//判断页面权限
+function isAuth(path:string):boolean {
+    return [''].includes(path);
+}
+
+function CreateMenu() {
+    const result = [];
+    for (let i = 0; i < Routes.length; i++) {
+        const item = Routes[i];
+        if (hasChildren(item)) {
+            result.push(createSubMenu(item));
+        } else {
+            result.push(createMenuItem(item));
+        }
+    }
+    return result;
+}
+
+
+export default function VMenu() {
+    const l = useLocation();
+    const rootPath = '/' + l.pathname.split('/')[1];
+    const defaultOpenKeys = rootSubmenuKeys.find(item => rootPath.includes(item)) || '/';
+    const history = useHistory();
+    const [openKeys, setOpenKeys] = useState<string[]>([defaultOpenKeys]);
+    const go = (val:any) => {
+        console.log(123);
+        if (history.location.pathname === val.key) return;
+        history.push(val.key);
+    };
+
+    const [collapsed,setCollapsed] = useState(false);
+
+    // 控制 只能展开一个子菜单
+    const onOpenChange = (val:React.Key[]) => {
+        const arr= (val as string[]);
+        const latestOpenKey = arr.find((key) => openKeys.indexOf(key) === -1) ||'';
+        if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+            setOpenKeys(arr);
+        } else {
+            setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+        }
+    };
+
     return (
-        <Sider
-            className="site-layout-background"
-            width={200}
+        <Menu
+            defaultOpenKeys={[defaultOpenKeys]}
+            defaultSelectedKeys={[l.pathname]}
+            inlineCollapsed={collapsed}
+            mode="inline"
+            onClick={go}
+            onOpenChange={onOpenChange}
+            openKeys={openKeys}
+            style={{ maxWidth:256,minHeight:'calc(100vh - 64px)' }}
+            theme="dark"
         >
-            <Menu
-                defaultOpenKeys={['sub1']}
-                defaultSelectedKeys={['1']}
-                mode="inline"
-                style={{ height: '100%', borderRight: 0 }}
-            >
-                <SubMenu icon={<UserOutlined />}
-                    key="sub1"
-                    title="subnav 1">
-                    <Menu.Item key="1">option1</Menu.Item>
-                    <Menu.Item key="2">option2</Menu.Item>
-                    <Menu.Item key="3">option3</Menu.Item>
-                    <Menu.Item key="4">option4</Menu.Item>
-                </SubMenu>
-                <SubMenu icon={<LaptopOutlined />}
-                    key="sub2"
-                    title="subnav 2">
-                    <Menu.Item key="5">option5</Menu.Item>
-                    <Menu.Item key="6">option6</Menu.Item>
-                    <Menu.Item key="7">option7</Menu.Item>
-                    <Menu.Item key="8">option8</Menu.Item>
-                </SubMenu>
-                <SubMenu icon={<NotificationOutlined />}
-                    key="sub3"
-                    title="subnav 3">
-                    <Menu.Item key="9">option9</Menu.Item>
-                    <Menu.Item key="10">option10</Menu.Item>
-                    <Menu.Item key="11">option11</Menu.Item>
-                    <Menu.Item key="12">option12</Menu.Item>
-                </SubMenu>
-            </Menu>
-        </Sider>
+            {
+                CreateMenu()
+            }
+            <h1 onClick={()=>setCollapsed(!collapsed)} >change</h1>
+        </Menu>
+        // <Menu
+        //     defaultOpenKeys={[defaultOpenKeys]}
+        //     defaultSelectedKeys={['1']}
+
+
+    //     mode="inline"
+    //     style={{ width: 256 }}
+    //     theme="dark"
+    // >
+    //     {
+    //         CreateMenu()
+
+    //     }
+
+    // </Menu>
     );
 }

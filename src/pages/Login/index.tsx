@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-20 11:21:52
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-21 16:33:11
+ * @LastEditTime: 2021-10-22 18:11:36
  */
 import React from 'react';
 import {useHistory} from 'react-router-dom';
@@ -20,6 +20,8 @@ export default function Login(){
 
     const h = useHistory();
     function login(values:LoginParams){
+        // h.push('/');
+
         API.login(values).then((res) => {
             localStorage.token = res.token;
             h.push('/');
