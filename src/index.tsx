@@ -3,26 +3,22 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-22 10:50:23
+ * @LastEditTime: 2021-10-23 15:46:20
  */
 import React,{Suspense,lazy} from 'react';
 import ReactDOM from 'react-dom';
-import './style/antdreset.less';
-import './style/common.less';
-import './style/minix/fontsize.less';
 import {
     HashRouter as Router,
     Route,
     Switch,
-    Link
 } from 'react-router-dom';
-
 import zhCN from 'antd/es/locale/zh_CN';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import {Spin,ConfigProvider} from 'antd';
-// import { ConfigProviderProps } from 'antd/es/config-provider';
-
+import './style/antdreset.less';
+import './style/common.less';
+import './style/minix/fontsize.less';
+const AppPage = lazy(()=>import('./App'));
+const LoginPage = lazy(()=>import('./pages/Login'));
 
 ReactDOM.render(
     <React.StrictMode>
@@ -35,13 +31,13 @@ ReactDOM.render(
                 <Router>
                     <Switch>
                         <Route
-                            component={lazy(()=>import('./pages/Login'))}
+                            component={LoginPage}
                             exact
                             path="/login"
                         >
                         </Route>
                         <Route
-                            component={lazy(()=>import('./App'))}
+                            component={AppPage}
 
                             path="/"
                         >
@@ -54,4 +50,4 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-reportWebVitals();
+// reportWebVitals();
