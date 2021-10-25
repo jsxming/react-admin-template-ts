@@ -3,10 +3,13 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-23 15:46:20
+ * @LastEditTime: 2021-10-25 17:49:30
  */
 import React,{Suspense,lazy} from 'react';
 import ReactDOM from 'react-dom';
+import { Provider, } from 'react-redux';
+import store, { persistor, } from '@/redux/store';
+import { PersistGate, } from 'redux-persist/lib/integration/react';
 import {
     HashRouter as Router,
     Route,
@@ -22,30 +25,36 @@ const LoginPage = lazy(()=>import('./pages/Login'));
 
 ReactDOM.render(
     <React.StrictMode>
-        <Suspense fallback={
-            <Spin
-                size="large"
-            />
-        }>
-            <ConfigProvider locale={zhCN}>
-                <Router>
-                    <Switch>
-                        <Route
-                            component={LoginPage}
-                            exact
-                            path="/login"
-                        >
-                        </Route>
-                        <Route
-                            component={AppPage}
+        <Provider store={store}>
+            <PersistGate loading={null}
+                persistor={persistor}
+            >
+                <Suspense fallback={
+                    <Spin
+                        size="large"
+                    />
+                }>
+                    <ConfigProvider locale={zhCN}>
+                        <Router>
+                            <Switch>
+                                <Route
+                                    component={LoginPage}
+                                    exact
+                                    path="/login"
+                                >
+                                </Route>
+                                <Route
+                                    component={AppPage}
 
-                            path="/"
-                        >
-                        </Route>
-                    </Switch>
-                </Router>
-            </ConfigProvider>
-        </Suspense>
+                                    path="/"
+                                >
+                                </Route>
+                            </Switch>
+                        </Router>
+                    </ConfigProvider>
+                </Suspense>
+            </PersistGate>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

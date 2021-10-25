@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-23 10:58:57
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-23 15:47:16
+ * @LastEditTime: 2021-10-25 17:50:05
  */
 // import moduleName from '../action/index';
 import {SET_USER,SET_TOKEN,SET_COURSE,SET_MARCH_ROUTE,DELETE_TOKEN} from '../action-type';
@@ -34,7 +34,7 @@ export function user(state={ },action) {
 }
 
 //token
-export function token(state='',action) {
+export function token(state='..a',action) {
     const { type,payload} = action;
     switch (type) {
     case SET_TOKEN:

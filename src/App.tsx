@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-22 17:22:22
+ * @LastEditTime: 2021-10-25 18:01:50
  */
 import React,{useEffect,lazy} from 'react';
 import {Button} from 'antd';
@@ -20,6 +20,7 @@ import {
     Switch,
     useRouteMatch
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 // import Test from './pages/Test';
 
 
@@ -53,14 +54,10 @@ function createRoutes():React.ReactElement[]{
 
 
 function App() {
-    // const test = useUpload({
-    //     maxSize:100,
-    //     upload:()=>{},
-    // });
-    const { path, url } = useRouteMatch();
 
     useEffect(()=>{
-        console.log(path,url);
+        // console.log(token,'token');
+        console.log('......-------');
         // API.queryAuthAll().then((res) => {
         //     console.log(res);
         // }).catch(() => {
