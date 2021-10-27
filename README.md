@@ -29,8 +29,8 @@ src
 
 
 ### 主要依赖库
-1.react react-dom  react-router-dom
-2.antd
-3.redux redux-saga redux-persist
-4.moment
-5.Axios
+1. react react-dom  react-router-dom
+2. antd
+3. redux redux-saga redux-persist
+4. moment
+5. Axios
