@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Autor: 小明～
+ * @Date: 2021-10-27 14:32:28
+ * @LastEditors: 小明～
+ * @LastEditTime: 2021-10-27 15:13:52
+ */
 interface ITest {
     name: string;
     age?: number;//可选属性
@@ -14,11 +21,11 @@ interface ISearchFunc {
     (source: string, subString: string): boolean;
 }
 
-let f1: ISearchFunc
+let f1: ISearchFunc;
 f1 = function name(s: string, b: string): boolean {
     console.log(s, b);
-    return false
-}
+    return false;
+};
 // ------------------------------------------------------------------------------------------------------------------------
 
 // 可索引的类型----。。。。用的不多
@@ -31,7 +38,7 @@ interface StringArray {
 
 // 实现一个接口
 class Pes implements ITest {
-    name = "mt";
+    name = 'mt';
     y = 1
 }
 
@@ -61,4 +68,4 @@ class P2 implements IA4 {
 }
 
 
-export { }
+export { };

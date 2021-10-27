@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Autor: 小明～
+ * @Date: 2021-10-27 14:32:28
+ * @LastEditors: 小明～
+ * @LastEditTime: 2021-10-27 16:05:13
+ */
 
 //布尔值
 const isDone: boolean = false;
@@ -42,7 +49,7 @@ const ay: any = '1';
 
 //断言语法
 const someValue: any = 'this is a string--';
-let a = (someValue as string).length
+const a = (someValue as string).length;
 console.log(a);
 
-export { }
+export { };

@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Autor: 小明～
+ * @Date: 2021-10-27 14:32:28
+ * @LastEditors: 小明～
+ * @LastEditTime: 2021-10-27 16:10:17
+ */
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
@@ -9,7 +16,7 @@ declare namespace NodeJS {
     }
 }
 
-declare module "*.tsx" {
+declare module '*.tsx' {
     const c: React.FC;
     export default c;
 }
