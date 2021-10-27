@@ -42,11 +42,11 @@ function createSubMenu(route:RouteItem) {
                 // return createMenuItem(item);
                 //多级导航用下面的代码 ！！！
                 if (hasChildren(item)) {
-                return createSubMenu(item);
+                    return createSubMenu(item);
                 } else {
-                return createMenuItem(item);
+                    return createMenuItem(item);
                 }
-                })
+            })
         }
     </SubMenu>;
 }
