@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:15:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-23 15:39:23
+ * @LastEditTime: 2021-10-28 17:26:49
  */
 import React, { useMemo, useState } from 'react';
 import VTable from '@/components/common/v-table';
@@ -32,24 +32,6 @@ export default function Role(){
         }).finally(()=>{
             setTableLoading(false);
         });
-        // this.setState({
-        //     tableLoading: true,
-        //     queryParams: {
-        //         ...this.state.queryParams,
-        //         ...params
-        //     }
-        // }, () => {
-        //     requestApi(this.state.queryParams).then(({ data }) => {
-        //         this.setState(() => ({
-        //             queryParams: { ...this.state.queryParams, total: +data.total },
-        //             tableData: data.records || [],
-        //         }));
-        //     }).finally(() => {
-        //         this.setState({
-        //             tableLoading: false
-        //         });
-        //     });
-        // });
     }
     const columns = useMemo(()=>{
         return [

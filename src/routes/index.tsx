@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:06:45
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-22 17:12:29
+ * @LastEditTime: 2021-10-28 17:24:36
  */
 import React, { lazy } from 'react';
 import { RouteItem } from '@/typings/route';
@@ -13,6 +13,7 @@ import { UserOutlined, LaptopOutlined, } from '@ant-design/icons';
 
 const App = lazy(() => import('@/App.tsx'));
 const Role = lazy(() => import('@/pages/rbac/role.tsx'));
+const User = lazy(() => import('@/pages/rbac/user.tsx'));
 // const Article = AsyncComponent(() => import('@/view/article/article'));
 // const Student = AsyncComponent(() => import('@/view/student/student'));
 // const Product = AsyncComponent(() => import('@/view/product/product'));
@@ -34,11 +35,17 @@ export const Routes:RouteItem[] = [
         icon: <LaptopOutlined />,
         children:[
             {
+                title: '用户管理',
+                path: '/rbac/user',
+                icon: <LaptopOutlined />,
+                component:<User/>,
+            },
+            {
                 title: '角色管理',
                 path: '/rbac/role',
                 icon: <LaptopOutlined />,
                 component:<Role/>,
-            }
+            },
         ]
     },
     // {

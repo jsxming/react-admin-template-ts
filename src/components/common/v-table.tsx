@@ -3,11 +3,10 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 17:37:43
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-22 18:00:57
+ * @LastEditTime: 2021-10-28 17:21:24
  */
 import React, { useEffect } from 'react';
 import { Spin, Table, Pagination, } from 'antd';
-
 interface Params{
     total:number;
     size:number;
@@ -21,7 +20,7 @@ interface IProps{
     isShowPage?:boolean;
     isAutoLoad?:boolean;
     queryParams:Params;
-    getTableData:(pa?:any)=>void;
+    getTableData:(opt?:any)=>void;
     loading?:boolean;
     columns:any[];
     tableData?:any[];

@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-23 10:45:52
+ * @LastEditTime: 2021-10-28 15:04:59
  */
 import $http from './config';
 import apiAddr, { PathConf } from './addr';
@@ -39,6 +39,7 @@ function createFromData(params: Obj): FormData {
     }
     return result;
 }
+
 
 /**
  * 生成请求函数
