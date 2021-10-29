@@ -3,12 +3,23 @@
  * @Autor: 小明～
  * @Date: 2021-10-25 17:56:57
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-25 18:01:32
+ * @LastEditTime: 2021-10-29 16:07:01
  */
 
-type Token  = string
 
-export interface IStore{
-    token:string;
+declare namespace Global{
+
+    interface Test{
+        token:string;
+    }
+
+
+    interface Iabc{
+        a:string;
+    }
+
+    interface Hello{
+        a:string
+    }
 
 }

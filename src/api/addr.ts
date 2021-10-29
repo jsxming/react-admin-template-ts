@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-21 17:43:09
+ * @LastEditTime: 2021-10-29 14:47:08
  */
 import { Method, ResponseType } from 'axios';
 
@@ -30,6 +30,9 @@ const allApi: IPaths = {
     login: new PathConf('POST', '/common/login'),
     queryUserRole: new PathConf('GET', '/user/role'),
     queryAuthAll: new PathConf('GET', '/auth/all'),
+    queryRoleAll: new PathConf('GET', '/role/all'),
+    queryRoleAuth: new PathConf('GET', '/role/auth/'),
+    updateRoleAuth: new PathConf('POST', '/role/auth/update'),
     // adf: new PathConf('GET', '/'),
     // adf2: new PathConf('GET', '/', true),
 };

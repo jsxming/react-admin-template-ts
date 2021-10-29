@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-25 18:01:50
+ * @LastEditTime: 2021-10-29 14:00:12
  */
 import React,{useEffect,lazy} from 'react';
 import {Button} from 'antd';
@@ -67,8 +67,8 @@ function App() {
     return (
         <LayoutMain>
             <>
-                <Link to={'/rbac/role'}>aaaaa</Link>
-                <Link to={'/b'}>bbbb</Link>
+                {/* <Link to={'/rbac/role'}>aaaaa</Link>
+                <Link to={'/b'}>bbbb</Link> */}
 
                 <Switch>
                     {createRoutes()}

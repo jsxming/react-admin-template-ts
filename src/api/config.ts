@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-21 16:30:25
+ * @LastEditTime: 2021-10-29 13:59:21
  */
 import axios from 'axios';
 import { Obj } from '../typings/global';
@@ -37,7 +37,7 @@ $http.interceptors.request.use(
         // if (token) {
         //     config.headers['whale-auth'] = 'bearer ' + token;
         // }
-        console.log(localStorage.token);
+        // console.log(localStorage.token);
         config.headers['token'] = localStorage.token ||'';
 
         if (config.method === 'post') {

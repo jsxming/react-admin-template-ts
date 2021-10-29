@@ -8,6 +8,7 @@ module.exports = {
     globals: {
         'process': true,
         '__dirname': true,
+        'Global':true
     },
     parser: '@typescript-eslint/parser',
     parserOptions: {

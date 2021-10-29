@@ -19,11 +19,16 @@
     "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx",
+    "typeRoots": [
+      "./src/typings"
+    ],
     "paths": {
-        "@/*": ["./src/*"], // 如果要使用index.tsx的，需要配置这个
+      "@/*": [
+        "./src/*"
+      ], // 如果要使用index.tsx的，需要配置这个
     }
   },
   "include": [
     "src"
-  ]
+  ],
 }

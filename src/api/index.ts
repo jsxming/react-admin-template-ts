@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-28 15:04:59
+ * @LastEditTime: 2021-10-29 09:30:17
  */
 import $http from './config';
 import apiAddr, { PathConf } from './addr';
@@ -67,11 +67,11 @@ function generatorApiFunc(pathInstance: PathConf): QuestFunc {
                 if (isPathParams(pathInstance.url)) {
                     // /user/1 处理路径参数的情况 直接把参数添加在请求路径后面
                     newUrl += data;
-
-                    if (opt) {
-                        //处理路径参数 传formdata的情况
-                        data = opt;
-                    }
+                    data = '';
+                    // if (opt) {
+                    //     //处理路径参数 传formdata的情况
+                    //     data = opt;
+                    // }
 
                 }
 
