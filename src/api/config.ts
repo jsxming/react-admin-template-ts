@@ -3,13 +3,12 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 13:59:21
+ * @LastEditTime: 2021-10-29 16:28:40
  */
 import axios from 'axios';
-import { Obj } from '../typings/global';
 
 // 删除请求参数中无效的参数
-function deleteInvalidParams(params: Obj) {
+function deleteInvalidParams(params: Global.Obj) {
     for (const key in params) {
         const value = params[key];
         if (typeof value === 'string' && !value.trim().length) {

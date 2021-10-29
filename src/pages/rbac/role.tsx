@@ -3,11 +3,10 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:15:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 16:07:14
+ * @LastEditTime: 2021-10-29 17:30:28
  */
 import React, { useMemo, useState,useEffect, CSSProperties } from 'react';
 import VTable from '@/components/common/v-table';
-import { Obj } from '@/typings/global';
 import API from '@/api';
 import {Button,Drawer,Checkbox,message,Row,Col} from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
@@ -38,13 +37,14 @@ const btnStyle:CSSProperties = {
     left:'50%',
     transform:'translateX(-50%)'
 };
-const a:Global.Test = {token:'af'};
-const b:Global.Iabc = {a:'s'};
-const c:Global.Hello = {a:'s2'};
-// const a:Test = {
-//     token:'adf'
-// };
-console.log(a,b,c);
+
+const a:Global.Test ={
+    id:12,
+    render:()=><div>123</div>
+    // render:()=><div>123</div>
+};
+console.log(a);
+
 export default function Role(){
     const [visible, setVisible] = useState(false);
     const [clickedRow, setClickedRow] = useState<IRoleItem>();
@@ -76,7 +76,7 @@ export default function Role(){
         });
     }
 
-    function getTableData(params:Obj) {
+    function getTableData(params:Global.Obj) {
         setTableLoading(true);
         const query = {
             ...queryParams,

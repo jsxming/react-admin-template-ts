@@ -3,12 +3,11 @@
  * @Autor: 小明～
  * @Date: 2021-10-28 17:23:45
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-28 18:05:43
+ * @LastEditTime: 2021-10-29 16:28:12
  */
 import React,{useState,useMemo} from 'react';
 import API from '@/api';
 import VTable from '@/components/common/v-table';
-import { Obj } from '@/typings/global';
 import {Button} from 'antd';
 
 
@@ -21,7 +20,7 @@ export default function User(){
         size: 20,
         total: 0
     });
-    function getTableData(params:Obj) {
+    function getTableData(params:Global.Obj) {
         setTableLoading(true);
         const query = {
             ...queryParams,

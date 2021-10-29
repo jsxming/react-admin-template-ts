@@ -3,18 +3,17 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 09:30:17
+ * @LastEditTime: 2021-10-29 16:27:49
  */
 import $http from './config';
 import apiAddr, { PathConf } from './addr';
-import { Obj } from '../typings/global';
 
 interface IResponse {
     code?: number;
     data: any;
     msg?: string;
 }
-type QuestFunc = (data?: any, opt?: Obj) => Promise<any>
+type QuestFunc = (data?: any, opt?: Global.Obj) => Promise<any>
 
 interface IApi {
     [name: string]: QuestFunc
@@ -25,14 +24,14 @@ const API: IApi = {
 };
 
 // 锁定请求
-const REQUEST_LOCK: Obj = {};
+const REQUEST_LOCK: Global.Obj = {};
 
 //判断是否是路径参数的url
 function isPathParams(url: string): boolean {
     return url.lastIndexOf('/') === url.length - 1;
 }
 
-function createFromData(params: Obj): FormData {
+function createFromData(params: Global.Obj): FormData {
     const result = new FormData();
     for (const key in params) {
         result.append(key, params[key]);
@@ -53,7 +52,7 @@ function generatorApiFunc(pathInstance: PathConf): QuestFunc {
     //     method = arr[0];
     //     url = arr[1];
     // }
-    return (data = {}, opt?: Obj): Promise<any> => {
+    return (data = {}, opt?: Global.Obj): Promise<any> => {
         if (REQUEST_LOCK[pathInstance.url]) {
             console.warn('请求正在响应中，请勿重复点击！');
             return new Promise(() => {
