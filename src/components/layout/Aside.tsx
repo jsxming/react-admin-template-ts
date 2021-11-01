@@ -5,7 +5,8 @@ import { isArray } from '@/util/index';
 import { useHistory, useLocation } from 'react-router-dom';
 import { RouteItem } from '@/typings/route';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-
+import {useSelector} from 'react-redux';
+import { IStore } from '@/typings/redux';
 
 const rootSubmenuKeys = ['/rbac'];
 
@@ -82,7 +83,8 @@ export default function VMenu() {
         history.push(val.key);
     };
 
-    const [collapsed,setCollapsed] = useState(false);
+    // const [collapsed,setCollapsed] = useState(false);
+    const hiddenMenu = useSelector((state:IStore) => state.hiddenMenu);
 
     // 控制 只能展开一个子菜单
     const onOpenChange = (val:React.Key[]) => {
@@ -99,7 +101,7 @@ export default function VMenu() {
         <Menu
             defaultOpenKeys={[defaultOpenKeys]}
             defaultSelectedKeys={[l.pathname]}
-            inlineCollapsed={collapsed}
+            inlineCollapsed={hiddenMenu}
             mode="inline"
             onClick={go}
             onOpenChange={onOpenChange}
@@ -110,7 +112,7 @@ export default function VMenu() {
             {
                 CreateMenu()
             }
-            <h1 onClick={()=>setCollapsed(!collapsed)} >change</h1>
+            {/* <h1 onClick={()=>setCollapsed(!collapsed)} >change</h1> */}
         </Menu>
         // <Menu
         //     defaultOpenKeys={[defaultOpenKeys]}

@@ -3,11 +3,12 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 17:30:15
+ * @LastEditTime: 2021-11-01 15:25:05
  */
 
 /// <reference types="react" />
 
+declare module 'react-color';
 
 declare namespace Global{
     interface Test{
@@ -23,4 +24,8 @@ declare namespace Global{
         [propsname: string]: any
     }
 
+}
+
+declare interface Window {
+    less:any;
 }

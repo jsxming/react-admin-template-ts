@@ -3,11 +3,11 @@
  * @Autor: 小明～
  * @Date: 2021-10-23 15:47:58
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-25 17:47:34
+ * @LastEditTime: 2021-11-01 14:28:49
  */
 
 import {all, takeEvery,call, put} from 'redux-saga/effects';
-import {DO_LOGIN, SET_TOKEN,QUERY_COURSE,SET_COURSE} from '../action-type';
+import {DO_LOGIN, SET_TOKEN} from '../action-type';
 import API from '@/api/index';
 
 
@@ -25,16 +25,9 @@ function* login(action){
 }
 
 
-function* queryCourses(action){
-    const res = yield call(API.querySubjectTree,action.payload);
-    yield put({type:SET_COURSE,payload:res});
-}
-
-
 
 export default function* root(){
     yield all([
         takeEvery(DO_LOGIN,login),
-        takeEvery(QUERY_COURSE,queryCourses),
     ]);
 }

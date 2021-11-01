@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-20 11:21:52
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-23 14:14:52
+ * @LastEditTime: 2021-11-01 11:39:41
  */
 import React, { useEffect } from 'react';
 import {useHistory} from 'react-router-dom';
@@ -11,6 +11,7 @@ import {Form,Input,Button} from 'antd';
 import API from '@/api/index';
 import { useDispatch } from 'react-redux';
 import {SET_TOKEN} from '@/redux/action-type';
+import  './index.less';
 
 //登录参数
 interface LoginParams {
@@ -36,6 +37,20 @@ export default function Login(){
         });
     }
 
+    function changeTheme(){
+        window.less.modifyVars({
+            '@primary-color': '#fe715c'
+
+        }).then((result:any) => {
+            console.log(result);
+        }).catch(() => {
+
+        });
+        // .catch((err:any)=>{
+        //     console.log(err);
+        // });
+    }
+
     return (
         <div className="flex-center h-100 w-100">
             <Form initialValues={{tel:'19381609624',password:'123456'}}
@@ -54,6 +69,9 @@ export default function Login(){
                         type="primary" >登录</Button>
                 </Form.Item>
             </Form>
+            <h1>adfasdfasdf</h1>
+            <Button onClick={changeTheme}
+                type="primary" >修改</Button>
         </div>
     );
 }
