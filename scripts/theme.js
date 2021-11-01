@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-11-01 10:37:46
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-01 16:03:15
+ * @LastEditTime: 2021-11-01 17:31:00
  */
 const path = require('path');
 const { generateTheme } = require('antd-theme-generator');
@@ -16,7 +16,7 @@ const options = {
     themeVariables: [
         '@primary-color',
     ],
-    outputFilePath: path.join(__dirname, '../public/js/color.less')
+    outputFilePath: path.join(__dirname, '../public/css/color.less')
 };
 
 generateTheme(options)
