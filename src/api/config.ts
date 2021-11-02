@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 16:28:40
+ * @LastEditTime: 2021-11-02 08:33:50
  */
 import axios from 'axios';
 
@@ -22,7 +22,7 @@ function deleteInvalidParams(params: Global.Obj) {
 
 
 const $http = axios.create({
-    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:8001/v1' : '',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:8001/v1' : '/go-admin/v1',
     timeout: 15000,
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
