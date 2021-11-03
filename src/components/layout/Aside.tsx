@@ -106,28 +106,21 @@ export default function VMenu() {
             onClick={go}
             onOpenChange={onOpenChange}
             openKeys={openKeys}
-            style={{ maxWidth:256,minHeight:'calc(100vh - 64px)' }}
+            style={{ maxWidth:256,minHeight:'100vh' }}
             theme="dark"
         >
+            <div style={{
+                height:60,
+                lineHeight:'60px',
+                textAlign:'center'
+            }}>
+                logo
+            </div>
             {
                 CreateMenu()
             }
-            {/* <h1 onClick={()=>setCollapsed(!collapsed)} >change</h1> */}
         </Menu>
-        // <Menu
-        //     defaultOpenKeys={[defaultOpenKeys]}
-        //     defaultSelectedKeys={['1']}
 
 
-    //     mode="inline"
-    //     style={{ width: 256 }}
-    //     theme="dark"
-    // >
-    //     {
-    //         CreateMenu()
-
-    //     }
-
-    // </Menu>
     );
 }

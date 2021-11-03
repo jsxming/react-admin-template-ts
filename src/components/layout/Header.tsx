@@ -3,26 +3,56 @@
  * @Autor: 小明～
  * @Date: 2021-10-21 16:38:59
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-01 15:31:51
+ * @LastEditTime: 2021-11-03 16:58:21
  */
 import React,{useState} from 'react';
-import {Layout,Switch,Drawer} from 'antd';
-import {SettingOutlined,MenuUnfoldOutlined,MenuFoldOutlined} from '@ant-design/icons';
+import {Layout,Switch,Drawer,Avatar,Breadcrumb} from 'antd';
+import {SettingOutlined,MenuUnfoldOutlined,MenuFoldOutlined,FullscreenOutlined,FullscreenExitOutlined,HomeOutlined} from '@ant-design/icons';
 import {useSelector,useDispatch} from 'react-redux';
 import { IStore } from '@/typings/redux';
 import { MENU_HIDDEN,MENU_SHOW } from '@/redux/action-type';
 import { SketchPicker } from 'react-color';
+import {toggleScreen} from '@/util/index';
 
+
+import {useLocation} from 'react-router-dom';
+import {Routes} from '@/routes/index';
+import { RouteItem } from '@/typings/route';
+// import {Breadcrumb} from 'antd';
+// import {HomeOutlined} from '@ant-design/icons';
 
 import './header.less';
 const { Header} = Layout;
 
 // let a:IStore
 
+function useBreadcrump():RouteItem[]{
+    const loc  = useLocation();
+    const result:RouteItem[] = [];
+    const findRouterMatch = (arr:RouteItem[],pathname:string,result:RouteItem[],len:number=1)=>{
+        const names = pathname.split('/').slice(1);
+        let pathItem ='';
+        for (let index = 0; index < len; index++) {
+            pathItem += '/'+names[index];
+        }
+        const r = arr.find(route=>route.path.includes(pathItem));
+        if(typeof r!=='undefined'){
+            result.push(r);
+            if(typeof r.children !=='undefined' && names.length>=len ){
+                findRouterMatch(r.children,loc.pathname,result,len+1);
+            }
+        }
+    };
+    findRouterMatch(Routes,loc.pathname,result);
+    return result;
+}
+
+
 export default function LayoutHeader(){
     const hiddenMenu = useSelector((state:IStore) => state.hiddenMenu);
     const dispatch = useDispatch();
     const [isShow, setIsShow] = useState(false);
+    const breadcrump = useBreadcrump();
 
     function toggleHiddenMenu(){
         if(hiddenMenu){
@@ -31,28 +61,50 @@ export default function LayoutHeader(){
             dispatch({type:MENU_SHOW});
         }
     }
+    const [isScreen,setIsScreen] = useState(false);
+
+    function changeScreen(bool:boolean){
+        toggleScreen(bool);
+        setIsScreen(bool);
+    }
 
     return (
         <Header className="layout-header flex-between">
-            <div>
-                <div className="logo" />
+            <div className="flex-start">
                 <p className="toggle-icon"
                     onClick={toggleHiddenMenu}
-                    style={{ marginBottom: 16 }}
                 >
                     {React.createElement(hiddenMenu ? MenuUnfoldOutlined : MenuFoldOutlined)}
                 </p>
-                {/* <Menu defaultSelectedKeys={['2']}
-                    mode="horizontal"
-                    theme="dark">
-                    <Menu.Item key="1">nav 1</Menu.Item>
-                    <Menu.Item key="2">nav 2</Menu.Item>
-                    <Menu.Item key="3">nav 3</Menu.Item>
-                </Menu> */}
+                <Breadcrumb  >
+                    <Breadcrumb.Item className="bread-item"
+                        href="#">
+                        <HomeOutlined />
+                    </Breadcrumb.Item>
+                    {
+                        breadcrump.map(item=>{
+                            return <Breadcrumb.Item className="bread-item"
+                                key={item.title}>{item.title}</Breadcrumb.Item>;
+                        })
+                    }
+                </Breadcrumb>
             </div>
-            <div className="tools">
-                <SettingOutlined className="icon-setting"
+            <div className="tools flex-start">
+                {
+                    isScreen ?
+                        <FullscreenExitOutlined className="icon-white"
+                            onClick={()=>changeScreen(false)}
+                        />
+                        :
+                        <FullscreenOutlined
+                            className="icon-white"
+                            onClick={()=>changeScreen(true)}
+                        />
+
+                }
+                <SettingOutlined className="icon-white"
                     onClick={()=>setIsShow(true)} />
+                <Avatar src="https://joeschmoe.io/api/v1/random"  />
             </div>
 
             <Drawer
