@@ -3,15 +3,16 @@
  * @Autor: 小明～
  * @Date: 2021-10-20 11:21:52
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-01 11:39:41
+ * @LastEditTime: 2021-11-04 16:58:53
  */
 import React, { useEffect } from 'react';
 import {useHistory} from 'react-router-dom';
 import {Form,Input,Button} from 'antd';
 import API from '@/api/index';
 import { useDispatch } from 'react-redux';
-import {SET_TOKEN} from '@/redux/action-type';
+import {SET_TOKEN,SET_AUTH,SET_AUTH_PATH} from '@/redux/action-type';
 import  './index.less';
+import { IAuthItem } from '@/typings/redux';
 
 //登录参数
 interface LoginParams {
@@ -26,12 +27,14 @@ export default function Login(){
         console.log(dispatch);
     },[]);
     function login(values:LoginParams){
-        // h.push('/');
-
         API.login(values).then((res) => {
             localStorage.token = res.token;
+            const auth = res.auth || [];
             dispatch({type:SET_TOKEN,payload:res.token});
-            h.push('/');
+            dispatch({type:SET_AUTH,payload:auth});
+            dispatch({type:SET_AUTH_PATH,payload:auth.map((item:IAuthItem)=>item.path)});
+
+            h.push('/rbac/user');
         }).catch(() => {
 
         });

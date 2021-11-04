@@ -112,6 +112,7 @@ module.exports = {
             'enforceForRenamedProperties': false,
         }],
         'use-isnan': 2,//禁止比较时使用NaN，只能用isNaN()
+        'react-hooks/rules-of-hooks': 1,
     },
     settings: {
         'import/ignore': [

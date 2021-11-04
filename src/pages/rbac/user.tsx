@@ -3,12 +3,13 @@
  * @Autor: 小明～
  * @Date: 2021-10-28 17:23:45
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 16:28:12
+ * @LastEditTime: 2021-11-04 10:54:15
  */
 import React,{useState,useMemo} from 'react';
 import API from '@/api';
 import VTable from '@/components/common/v-table';
 import {Button} from 'antd';
+import Auth from '@/components/common/Auth';
 
 
 
@@ -75,5 +76,17 @@ export default function User(){
             queryParams={queryParams}
             tableData={tableData}
         ></VTable>
+        <Auth id="1">
+            <h1>111</h1>
+        </Auth>
+        <Auth id="2">
+            <h1>222</h1>
+        </Auth>
+        <Auth id="3">
+            <h1>333</h1>
+        </Auth>
+        <Auth id="4">
+            <h1>44</h1>
+        </Auth>
     </>;
 }

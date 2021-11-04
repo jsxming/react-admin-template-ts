@@ -3,25 +3,27 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:15:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 17:30:28
+ * @LastEditTime: 2021-11-04 16:15:32
  */
 import React, { useMemo, useState,useEffect, CSSProperties } from 'react';
 import VTable from '@/components/common/v-table';
 import API from '@/api';
 import {Button,Drawer,Checkbox,message,Row,Col} from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-
+// import {Routes} from '@/routes/index';
+import {IAuthItem} from '@/typings/redux';
 type IRoleItem = {
     id:number;
     roleName:string;
 }
 
-type IAuthItem ={
-    id:number;
-    path:string;
-    label:string;
-    parentId:number;
-}
+// type IAuthItem ={
+//     id:number;
+//     path:string;
+//     label:string;
+//     parentId:number;
+//     children?:IAuthItem[];
+// }
 
 type RoleAuth = {
     id:number;
@@ -38,12 +40,36 @@ const btnStyle:CSSProperties = {
     transform:'translateX(-50%)'
 };
 
-const a:Global.Test ={
-    id:12,
-    render:()=><div>123</div>
-    // render:()=><div>123</div>
-};
-console.log(a);
+
+type IKeys = {
+    [propsname:string]:IAuthItem[]|undefined
+}
+
+interface TreeNode extends IAuthItem{
+    dept:number
+}
+
+function Test(props:TreeNode){
+    if(props.children){
+        return <Row style={{marginLeft:props.dept*15,width:'100%'}}>
+            <Col span={props.children? 24 : 6}>
+                <Checkbox value={props.id}>{props.label}</Checkbox>
+            </Col>
+            {
+                props.children.map(item=>{
+                    return <Test {...item}
+                        dept={props.dept+1}
+                        key={item.id}/>;
+                })
+            }
+        </Row>;
+    }else{
+        return <Col span={props.path==='component' ? 3:24}
+            style={{marginLeft:props.dept*15}}>
+            <Checkbox value={props.id}>{props.label}</Checkbox>
+        </Col>;
+    }
+}
 
 export default function Role(){
     const [visible, setVisible] = useState(false);
@@ -61,6 +87,27 @@ export default function Role(){
     useEffect(() => {
         API.queryAuthAll().then((res:IAuthItem[]) => {
             setauth(res);
+            const keys:IKeys ={};
+            res.forEach(item=>{
+                if(item.parentId!==0){
+                    if(Array.isArray(keys[item.parentId])){
+                        keys[item.parentId]?.push(item);
+                    }else{
+                        keys[item.parentId] = [item];
+                    }
+                }
+            });
+            const result:IAuthItem[] =[];
+            res.forEach(item=>{
+                if(Array.isArray(keys[item.id])){
+                    item.children = keys[item.id];
+                }
+                if(item.parentId===0){
+                    result.push(item);
+                }
+            });
+            console.log(result);
+            setauth(result);
         }).catch(() => {
 
         });
@@ -161,19 +208,31 @@ export default function Role(){
                         size="large"
                         style={btnStyle}
                         type="primary"  >保存</Button>
-                    <Row>
-                        {
-                            auth.map(item=>{
-                                return <Col
-                                    key={item.id+'auth'}
-                                    span={6}
-                                    style={{marginBottom:30}}
-                                >
-                                    <Checkbox value={item.id}>{item.label}</Checkbox>
-                                </Col>;
-                            })
-                        }
-                    </Row>
+                    {/* {
+                        auth.map(item=>{
+                            return (
+                                <Row key={item.id}>
+
+                                </Row>
+                            );
+                        })
+                    } */}
+                    {/* <Row> */}
+                    {
+                        auth.map(item=>{
+                            return <Test {...item}
+                                dept={0}
+                                key={item.id} />;
+                            // return <Col
+                            //     key={item.id+'auth'}
+                            //     span={6}
+                            //     style={{marginBottom:30}}
+                            // >
+                            //     <Checkbox value={item.id}>{item.label}</Checkbox>
+                            // </Col>;
+                        })
+                    }
+                    {/* </Row> */}
                 </Checkbox.Group>
             </Drawer>
         </>

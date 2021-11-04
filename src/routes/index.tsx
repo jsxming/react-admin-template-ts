@@ -3,21 +3,20 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:06:45
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-28 17:24:36
+ * @LastEditTime: 2021-11-04 16:32:28
  */
 import React, { lazy } from 'react';
 import { RouteItem } from '@/typings/route';
 
 import { UserOutlined, LaptopOutlined, } from '@ant-design/icons';
-// import AsyncComponent from '@/components/AsyncComponent/index';
-
+// import Role from '@/pages/rbac/role.tsx';
+// import User from '@/pages/rbac/user.tsx';
 const App = lazy(() => import('@/App.tsx'));
 const Role = lazy(() => import('@/pages/rbac/role.tsx'));
 const User = lazy(() => import('@/pages/rbac/user.tsx'));
-// const Article = AsyncComponent(() => import('@/view/article/article'));
-// const Student = AsyncComponent(() => import('@/view/student/student'));
-// const Product = AsyncComponent(() => import('@/view/product/product'));
-// const ProductEdit = AsyncComponent(() => import('@/view/product/edit'));
+const Test = lazy(() => import('@/pages/Test/index.tsx'));
+
+
 
 
 
@@ -48,6 +47,13 @@ export const Routes:RouteItem[] = [
             },
         ]
     },
+    {
+        title: 'test',
+        path: '/test',
+        icon: <LaptopOutlined />,
+        component:<Test/>,
+
+    }
     // {
     //     title: '文章',
     //     path: '/article',

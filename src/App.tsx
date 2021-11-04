@@ -3,25 +3,21 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 14:00:12
+ * @LastEditTime: 2021-11-04 17:09:39
  */
-import React,{useEffect,lazy} from 'react';
-import {Button} from 'antd';
-import {Link, NavLink} from 'react-router-dom';
-import useUpload from '@/hooks/useUpload';
+import React from 'react';
+import {Spin} from 'antd';
 import LayoutMain from '@/components/layout/Main';
-import API from '@/api/index';
 import { isArray,isValidValue } from '@/util/index';
 import { RouteItem } from '@/typings/route';
 import { Routes } from '@/routes/index';
+import useHasAuth from '@/hooks/useHasAuth';
+
 
 import {
     Route,
     Switch,
-    useRouteMatch
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-// import Test from './pages/Test';
 
 
 function hasChildren(route:RouteItem):boolean {
@@ -34,7 +30,7 @@ function hasComponent(item:RouteItem):boolean{
 
 function createRoute(arr:RouteItem[],result:React.ReactElement[]){
     arr.forEach(item=>{
-        if(hasComponent(item)){
+        if(hasComponent(item) && useHasAuth(item.path)){
             result.push(<Route children={item.component}
                 exact
                 key={item.path}
@@ -54,35 +50,23 @@ function createRoutes():React.ReactElement[]{
 
 
 function App() {
-
-    useEffect(()=>{
-        // console.log(token,'token');
-        console.log('......-------');
-        // API.queryAuthAll().then((res) => {
-        //     console.log(res);
-        // }).catch(() => {
-
-        // });
-    },[]);
     return (
         <LayoutMain>
-            <>
-                {/* <Link to={'/rbac/role'}>aaaaa</Link>
-                <Link to={'/b'}>bbbb</Link> */}
-
+            <React.Suspense
+                fallback={
+                    <Spin
+                        size="large"
+                    />
+                }
+            >
                 <Switch>
                     {createRoutes()}
-
-                    {/* <Route exact
-                        path="/rbac/role">
-                        <h1>aaaaaaa</h1>
-                    </Route> */}
                     <Route exact
-                        path="/b">
-                        <h1>bbbbbb</h1>
+                        path="/*">
+                        <h1>404</h1>
                     </Route>
                 </Switch>
-            </>
+            </React.Suspense>
         </LayoutMain>
     );
 }

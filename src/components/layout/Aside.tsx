@@ -4,11 +4,12 @@ import { Routes } from '@/routes/index';
 import { isArray } from '@/util/index';
 import { useHistory, useLocation } from 'react-router-dom';
 import { RouteItem } from '@/typings/route';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import {useSelector} from 'react-redux';
-import { IStore } from '@/typings/redux';
+import {  IStore } from '@/typings/redux';
+import useHasAuth from '@/hooks/useHasAuth';
 
-const rootSubmenuKeys = ['/rbac'];
+
+// const rootSubmenuKeys = ['/rbac'];
 
 const { SubMenu } = Menu;
 
@@ -22,6 +23,9 @@ function hasIcon(item:RouteItem) {
 
 
 function createMenuItem(item:RouteItem) {
+    if(!useHasAuth(item.path)){
+        return;
+    }
     return <Menu.Item
         icon={hasIcon(item)}
         key={item.path}
@@ -52,15 +56,16 @@ function createSubMenu(route:RouteItem) {
     </SubMenu>;
 }
 
-//判断页面权限
-function isAuth(path:string):boolean {
-    return [''].includes(path);
-}
+
 
 function CreateMenu() {
     const result = [];
+    console.log(Routes);
     for (let i = 0; i < Routes.length; i++) {
         const item = Routes[i];
+        if(!useHasAuth(item.path)){
+            continue;
+        }
         if (hasChildren(item)) {
             result.push(createSubMenu(item));
         } else {
@@ -73,17 +78,22 @@ function CreateMenu() {
 
 export default function VMenu() {
     const l = useLocation();
+    const auth = useSelector((state:IStore)=>state.auth);
+
+    const [rootSubmenuKeys] = useState<string[]>(auth.filter(item=>{
+        return item.parentId===0;
+    }).map(item=>item.path));
+
+    // console.log(rootSubmenuKeys,'asfg');
     const rootPath = '/' + l.pathname.split('/')[1];
     const defaultOpenKeys = rootSubmenuKeys.find(item => rootPath.includes(item)) || '/';
     const history = useHistory();
     const [openKeys, setOpenKeys] = useState<string[]>([defaultOpenKeys]);
     const go = (val:any) => {
-        console.log(123);
         if (history.location.pathname === val.key) return;
         history.push(val.key);
     };
 
-    // const [collapsed,setCollapsed] = useState(false);
     const hiddenMenu = useSelector((state:IStore) => state.hiddenMenu);
 
     // 控制 只能展开一个子菜单

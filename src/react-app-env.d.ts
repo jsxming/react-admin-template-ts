@@ -3,11 +3,12 @@
  * @Autor: 小明～
  * @Date: 2021-10-27 14:32:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-27 16:10:17
+ * @LastEditTime: 2021-11-04 16:37:09
  */
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
+
 
 declare namespace NodeJS {
     interface ProcessEnv {
@@ -55,6 +56,7 @@ declare module '*.webp' {
     const src: string;
     export default src;
 }
+
 
 declare module '*.svg' {
     import * as React from 'react';

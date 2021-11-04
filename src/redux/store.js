@@ -8,11 +8,11 @@
 import { persistReducer,persistStore, } from 'redux-persist';
 import rootReducer from '@/redux/reducer/index';
 import storage from 'redux-persist/lib/storage';
-import { createStore, applyMiddleware, } from 'redux';
+import { createStore, applyMiddleware,compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '@/redux/saga/index';
 
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistConfig = {
     key: 'root',
     storage: storage,
@@ -21,7 +21,7 @@ const persistConfig = {
 const rootReducers  = persistReducer(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducers,applyMiddleware(sagaMiddleware));
+const store = createStore(rootReducers,composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);
