@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-23 11:10:26
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-04 16:58:06
+ * @LastEditTime: 2021-11-06 09:36:04
  */
 export const SET_TOKEN = 'SET_TOKEN';
 
@@ -27,3 +27,7 @@ export const MENU_SHOW = 'MENU_SHOW';
 
 export const SET_AUTH = 'SET_AUTH';
 export const SET_AUTH_PATH = 'SET_AUTH_PATH';
+
+
+export const SET_PAGE_COMPONENT_AUTH = 'SET_PAGE_COMPONENT_AUTH';
+export const SET_CURRENT_PAGE_COMPONENT_AUTH = 'SET_CURRENT_PAGE_COMPONENT_AUTH';

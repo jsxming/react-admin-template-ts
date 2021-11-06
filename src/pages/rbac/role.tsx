@@ -3,27 +3,20 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:15:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-04 16:15:32
+ * @LastEditTime: 2021-11-06 10:39:40
  */
 import React, { useMemo, useState,useEffect, CSSProperties } from 'react';
 import VTable from '@/components/common/v-table';
 import API from '@/api';
 import {Button,Drawer,Checkbox,message,Row,Col} from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-// import {Routes} from '@/routes/index';
 import {IAuthItem} from '@/typings/redux';
+
 type IRoleItem = {
     id:number;
     roleName:string;
 }
 
-// type IAuthItem ={
-//     id:number;
-//     path:string;
-//     label:string;
-//     parentId:number;
-//     children?:IAuthItem[];
-// }
 
 type RoleAuth = {
     id:number;
@@ -49,7 +42,7 @@ interface TreeNode extends IAuthItem{
     dept:number
 }
 
-function Test(props:TreeNode){
+function AuthTree(props:TreeNode){
     if(props.children){
         return <Row style={{marginLeft:props.dept*15,width:'100%'}}>
             <Col span={props.children? 24 : 6}>
@@ -57,7 +50,7 @@ function Test(props:TreeNode){
             </Col>
             {
                 props.children.map(item=>{
-                    return <Test {...item}
+                    return <AuthTree {...item}
                         dept={props.dept+1}
                         key={item.id}/>;
                 })
@@ -106,7 +99,6 @@ export default function Role(){
                     result.push(item);
                 }
             });
-            console.log(result);
             setauth(result);
         }).catch(() => {
 
@@ -208,31 +200,13 @@ export default function Role(){
                         size="large"
                         style={btnStyle}
                         type="primary"  >保存</Button>
-                    {/* {
-                        auth.map(item=>{
-                            return (
-                                <Row key={item.id}>
-
-                                </Row>
-                            );
-                        })
-                    } */}
-                    {/* <Row> */}
                     {
                         auth.map(item=>{
-                            return <Test {...item}
+                            return <AuthTree {...item}
                                 dept={0}
                                 key={item.id} />;
-                            // return <Col
-                            //     key={item.id+'auth'}
-                            //     span={6}
-                            //     style={{marginBottom:30}}
-                            // >
-                            //     <Checkbox value={item.id}>{item.label}</Checkbox>
-                            // </Col>;
                         })
                     }
-                    {/* </Row> */}
                 </Checkbox.Group>
             </Drawer>
         </>

@@ -3,17 +3,18 @@
  * @Autor: 小明～
  * @Date: 2021-10-27 14:32:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-04 11:02:03
+ * @LastEditTime: 2021-11-06 10:26:59
  */
+import { IStore } from '@/typings/redux';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 type IProps = {
-    id:string;
+    id:number;
     children:React.ReactElement;
 }
 
-const arr =['1','2','3']; //模拟当前页面权限
-
 export default function AuthComponent(props:IProps):React.ReactElement | null {
-    return arr.includes(props.id) ? props.children :null;
+    const currentPageComponentAuth = useSelector((state:IStore)=>state.currentPageComponentAuth);
+    return currentPageComponentAuth.some(item=>item.id===props.id) ? props.children : null;
 }

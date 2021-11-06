@@ -60,7 +60,6 @@ function createSubMenu(route:RouteItem) {
 
 function CreateMenu() {
     const result = [];
-    console.log(Routes);
     for (let i = 0; i < Routes.length; i++) {
         const item = Routes[i];
         if(!useHasAuth(item.path)){

@@ -3,11 +3,12 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 15:18:56
+ * @LastEditTime: 2021-11-06 10:26:20
  */
 import React, {   useEffect, useRef, useState } from 'react';
 import { useHistory,Link } from 'react-router-dom';
 // import ReactDOM from 'react-dom';
+import Auth from '@/components/common/Auth';
 
 import {Button} from 'antd';
 // import { JSXElement } from '@babel/types';
@@ -44,11 +45,15 @@ export default function Test() {
         <div>
             <h1 onClick={log}
                 ref={el}>back------------------------</h1>
-            {/* <input onChange={change}
-                type="text"
-                value={val} /> */}
             <Button type="primary">fadsfasdf</Button>
             <Link to="/login" >login</Link>
+
+            <Auth id={14}>
+                <h1>111</h1>
+            </Auth>
+            <Auth id={15}>
+                <h1>222</h1>
+            </Auth>
         </div>
     );
 }
