@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:15:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-06 10:39:40
+ * @LastEditTime: 2021-11-06 15:35:00
  */
 import React, { useMemo, useState,useEffect, CSSProperties } from 'react';
 import VTable from '@/components/common/v-table';
@@ -80,26 +80,27 @@ export default function Role(){
     useEffect(() => {
         API.queryAuthAll().then((res:IAuthItem[]) => {
             setauth(res);
-            const keys:IKeys ={};
-            res.forEach(item=>{
-                if(item.parentId!==0){
-                    if(Array.isArray(keys[item.parentId])){
-                        keys[item.parentId]?.push(item);
-                    }else{
-                        keys[item.parentId] = [item];
-                    }
-                }
-            });
-            const result:IAuthItem[] =[];
-            res.forEach(item=>{
-                if(Array.isArray(keys[item.id])){
-                    item.children = keys[item.id];
-                }
-                if(item.parentId===0){
-                    result.push(item);
-                }
-            });
-            setauth(result);
+            // const keys:IKeys ={};
+            // res.forEach(item=>{
+            //     if(item.parentId!==0){
+            //         if(Array.isArray(keys[item.parentId])){
+            //             keys[item.parentId]?.push(item);
+            //         }else{
+            //             keys[item.parentId] = [item];
+            //         }
+            //     }
+            // });
+            // const result:IAuthItem[] =[];
+            // res.forEach(item=>{
+            //     if(Array.isArray(keys[item.id])){
+            //         item.children = keys[item.id];
+            //     }
+            //     if(item.parentId===0){
+            //         result.push(item);
+            //     }
+            // });
+            // console.log(keys);
+            // setauth(result);
         }).catch(() => {
 
         });
@@ -132,6 +133,8 @@ export default function Role(){
     }
 
     function updateRoleAuth(){
+        // console.log(currentAuth);
+        // return;
         API.updateRoleAuth({
             roleId:clickedRow?.id,
             auth:currentAuth,

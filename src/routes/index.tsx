@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:06:45
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-04 16:32:28
+ * @LastEditTime: 2021-11-06 11:04:08
  */
 import React, { lazy } from 'react';
 import { RouteItem } from '@/typings/route';
@@ -13,6 +13,7 @@ import { UserOutlined, LaptopOutlined, } from '@ant-design/icons';
 // import User from '@/pages/rbac/user.tsx';
 const App = lazy(() => import('@/App.tsx'));
 const Role = lazy(() => import('@/pages/rbac/role.tsx'));
+const Auth = lazy(() => import('@/pages/rbac/auth.tsx'));
 const User = lazy(() => import('@/pages/rbac/user.tsx'));
 const Test = lazy(() => import('@/pages/Test/index.tsx'));
 
@@ -44,6 +45,12 @@ export const Routes:RouteItem[] = [
                 path: '/rbac/role',
                 icon: <LaptopOutlined />,
                 component:<Role/>,
+            },
+            {
+                title: ' 权限管理',
+                path: '/rbac/auth',
+                icon: <LaptopOutlined />,
+                component:<Auth/>,
             },
         ]
     },

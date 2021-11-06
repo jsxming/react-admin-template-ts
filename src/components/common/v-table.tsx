@@ -3,10 +3,10 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 17:37:43
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-28 17:21:24
+ * @LastEditTime: 2021-11-06 11:19:20
  */
 import React, { useEffect } from 'react';
-import { Spin, Table, Pagination, } from 'antd';
+import { Spin, Table, Pagination,TableColumnType } from 'antd';
 interface Params{
     total:number;
     size:number;
@@ -22,10 +22,14 @@ interface IProps{
     queryParams:Params;
     getTableData:(opt?:any)=>void;
     loading?:boolean;
-    columns:any[];
+    columns:TableColumnType<any>[];
     tableData?:any[];
 }
 
+// const a:TableColumnType<any> = {
+
+// };
+// console.log(a);
 export default function VTable(props:IProps={
     defaultPageSize: 10,
     columns:[],

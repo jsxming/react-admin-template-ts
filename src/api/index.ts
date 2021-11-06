@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-09-02 17:31:40
  * @LastEditors: 小明～
- * @LastEditTime: 2021-10-29 16:27:49
+ * @LastEditTime: 2021-11-06 10:58:38
  */
 import $http from './config';
 import apiAddr, { PathConf } from './addr';
@@ -19,9 +19,7 @@ interface IApi {
     [name: string]: QuestFunc
 }
 
-const API: IApi = {
-
-};
+const API: IApi = {};
 
 // 锁定请求
 const REQUEST_LOCK: Global.Obj = {};
