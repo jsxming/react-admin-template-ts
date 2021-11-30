@@ -1,0 +1,386 @@
+/*
+ * @Description:
+ * @Autor: 小明～
+ * @Date: 2021-11-12 14:26:20
+ * @LastEditors: 小明～
+ * @LastEditTime: 2021-11-17 09:42:46
+ */
+
+import React,{ useState, useEffect, useRef, useContext } from 'react'
+import { View } from '@/jgj/components/index'
+import CheckBox from '../checkbox/index'
+import styles from './index.module.less'
+import { ITouchEvent } from '@tarojs/components';
+
+console.log(styles,'styles');
+
+interface ICtx{
+  isMultiple:boolean;
+  isMax:boolean;
+  lastCheckValue?:any;
+  values:INodeProps[];
+}
+
+
+interface ITreeProps {
+  multiple?: boolean;
+  max?: number;
+  dept:number;
+  treeCheckable?: boolean; //是否展示 checkbox
+  value: INodeProps | INodeProps[]; //初始选中的值
+  data: INodeProps[]; //数据源
+  onChange: (value: INodeProps | INodeProps[]) => void
+}
+
+interface INodeProps {
+  value: any;
+  label: string;
+  children?: INodeProps[];
+}
+
+interface ILogicNodeProps {
+  isCheck: boolean;
+  label: string;
+  value: any;
+  children?: ILogicNodeProps[] | undefined;
+  onChildChange?: (v: boolean, index: number) => void;
+  _index: number;
+  isShowChildren?: boolean | undefined;
+  onSelect?: (n: number) => void;
+  dept: number; //自己所在的深度
+  treeDept?:boolean; // 树的深度
+  onNoticeTreeLeafChange?: (v: INodeProps, opt: any) => void;
+  position: number[];
+  // ctx:React.Context<number>;
+}
+
+
+
+function isArray(val: any) {
+  return Array.isArray(val) && val.length > 0
+}
+let TreeCtx = React.createContext<ICtx>({
+  isMax:false,
+  isMultiple:false,
+  values:[]
+})
+
+
+function TreeNode(props: ILogicNodeProps) {
+  // console.log(props);
+  let ctx = useContext(TreeCtx)
+  // console.log(countCtx,'countCtx');
+  let [showIndex, setShowIndex] = useState<number>(props.dept === 0 ? 0 : -1)
+  let [isLeaf] = useState<boolean>(!isArray(props.children))
+  // let [children] = useState<boolean>(props.children)
+  let [isCheck, setIsCheck] = useState<boolean>(props.isCheck)
+  //子元素选中的个数
+  let [childrenCheckIdx, setChildrenCheckIdx] = useState((props.children || []).map(item=>{
+    return item.isCheck
+  }))
+  //是否有子元素被选中
+  let [hasChildrenCheck, setHasChildrenCheck] = useState<boolean>(false)
+
+
+  useEffect(()=>{
+    // console.log(props.label,childrenCheckIdx);
+    let b = childrenCheckIdx.some(item=>item===true)
+    setHasChildrenCheck(b)
+    props.onChildChange && props.onChildChange(b, props._index)
+  },[childrenCheckIdx])
+
+  function change(e: ITouchEvent, idx: number) {
+    console.log(props.label,idx,'90-------');
+    e.stopPropagation()
+    e.preventDefault()
+    if (!isLeaf) {
+      setShowIndex(idx)
+      props.onSelect && props.onSelect(props._index)
+      return
+    }
+    let r = !isCheck
+    if(r && ctx.isMax)return
+    if (isLeaf) {
+
+      props.onChildChange && props.onChildChange(r, props._index)
+      props.onNoticeTreeLeafChange && props.onNoticeTreeLeafChange({
+        value: props.value, label: props.label
+      }, {
+        isCheck: r,
+        position: props.position,
+        // lastCheckValue:ctx.lastCheckValue
+      })
+      // console.log(ctx.lastCheckValue,'lastCheckValue');
+      setIsCheck(v=>!v)
+
+      // console.log(countCtx,'countCtx',props);
+
+    }
+  }
+
+  function childChange(v: boolean, index: number): void {
+    // console.log(120,props.label);
+    // console.log(isLeaf , props.isShowChildren , showIndex,'120===',props.label);
+    setChildrenCheckIdx(oldv=>{
+      let tmp = [...oldv]
+      tmp[index] = v
+      return tmp
+    })
+  }
+
+
+  useEffect(() => {
+    // setIsCheck(props.isCheck)
+    // if(countCt)
+    let values = ctx.values;
+    if(isLeaf && !ctx.isMultiple && values.length>0){
+      console.log(123222);
+      let ischeck = values.some(itme=>itme.value===props.value)
+      setIsCheck(ischeck)
+    }
+    // if(isCheck && !ctx.isMultiple && lastCheckValue ===props.value){
+      // console.log(ctx);
+      // setIsCheck(false)
+      // console.log(lastCheckValue,'lastCheckValue');
+    // }
+  }, [ctx])
+
+  useEffect(() => {
+    if (isCheck && isLeaf) {
+      // console.log(141,props.label);
+      props.onChildChange && props.onChildChange(true, props._index)
+    }
+  }, [])
+  return <View  className={`
+    ${styles.node}
+    
+  `} style={{
+    // transform: 'translateX(-30vw)'
+  }}
+  >
+    {
+      props.dept > 0 && <View onClick={(e: ITouchEvent) => change(e, props._index)}  className={`
+       ${styles.node_value}
+       ${  isLeaf && isCheck ? styles.check:''}
+       ${  !isLeaf && props.isShowChildren ? styles.check:''}
+       ${props.dept===1 && isCheck ?  styles.dot:''}
+      `}
+      >
+        {/* <View>{props.label}+{Number(hasChildrenCheck)}</View> */}
+        <View>{props.label}+{Number(props._index)}</View>
+        {
+          isLeaf && <CheckBox value={isCheck} />
+        }
+      </View>
+    }
+
+  {
+    !isLeaf && props.isShowChildren && showIndex > -1 &&  <View className={`
+    ${styles.node_child}
+    ${styles['node_child_'+props.dept]}
+
+    `} style={{
+      transform:`translateY(-${props._index*92}rpx)`
+      // left: (props.dept * 33) + 'vw',
+    }}
+    >
+      {
+        props.children?.map((item, i) => {
+          return <TreeNode
+            {...item}
+            key={item.value}
+            onChildChange={childChange}
+            onNoticeTreeLeafChange={props.onNoticeTreeLeafChange}
+            dept={props.dept + 1}
+            _index={i}
+            isShowChildren={i === showIndex}
+            onSelect={() => {
+              setShowIndex(i)
+            }}
+          />
+        })
+      }
+    </View>
+  }
+      
+    
+  </View>
+}
+
+
+
+
+
+//初始化时，第一个选中的node的位置缓存 待改进。。。
+let postionCache = {};
+
+/**
+ * 解析生成树的数据结构
+ * @param sourceData 数据源
+ * @param value  选中的值
+ * @param dept node层级
+ * @param position node在树中的位置
+ * @returns ILogicNodeProps[]
+ */
+function initTree(sourceData: INodeProps[], value: INodeProps | INodeProps[], dept: number, position: number[], key: string,isDept:boolean): ILogicNodeProps[] {
+  let result: ILogicNodeProps[] = sourceData.map<ILogicNodeProps>((item, k): ILogicNodeProps => {
+    let resPosition = [...position, k]
+    let res: ILogicNodeProps = {
+      label: item.label,
+      isCheck: false,
+      value: item.value,
+      dept: dept,
+      _index: k,
+      position: resPosition,
+      treeDept:isDept,
+    }
+    if (Array.isArray(value)) {
+      res.isCheck = value.findIndex(val => val.value === item.value) > -1
+    } else {
+      res.isCheck = item.value === value.value
+    }
+    if (item.children) {
+      res.children = initTree(item.children || [], value, dept + 1, resPosition, key,isDept)
+      let b = res.children?.some(v => v.isCheck === true)
+      res.isCheck = b
+      // console.log(res.label, b, res.children);
+    }
+    if (res.isCheck && !item.children && !postionCache[key]) {
+      postionCache[key] = [...res.position]
+    }
+    return res
+  })
+  return result
+}
+
+
+
+
+function Tree(props: ITreeProps) {
+
+  let [sourceData, setSourceData] = useState<ILogicNodeProps[]>([])
+  let [value, setValue] = useState<INodeProps[]>(Array.isArray(props.value) ? props.value : [props.value])
+  let dept = useRef(0)
+  let oldValue = useRef()
+  const [firstIndex, setfirstIndex] = useState(-1)
+  const [key] = useState(new Date().getTime() + '' + Math.random())
+
+  let [max,setMax] = useState<number>(props.max||1)
+  let [prePosition, setPrePosition] = useState<number[]>([])
+  // let [count,setCount] = useState<number>(1)
+  let [treeCtxValue,setTreeCtxValue] = useState<ICtx>({
+    // multiple:props.multiple,
+    // max:props.max ? props.max:1,
+    isMax:value.length===props.max,
+    isMultiple:!!props.multiple,
+    lastCheckValue:null,
+    values:[]
+  })
+  // let ctx = React.createContext(null)
+
+
+
+  useEffect(() => {
+    //手动构造成一颗树
+    let t = [{
+      label: 'root',
+      value: 'root',
+      children: props.data || []
+    }]
+    let d = initTree(t, value, dept.current, [], key,props.dept>2)
+    // console.log(postionCache[key], 'postionCache[key]');
+    setPrePosition(postionCache[key])
+    setSourceData(d)
+  }, [])
+
+
+  useEffect(() => {
+    props.onChange(value)
+    // let val:any;
+    // if(Array.isArray(value)&&value.length>0){
+    //   oldValue.current = value[0].value
+    // }
+    setTreeCtxValue(oldV=>{
+      return {
+        ...oldV,
+        values:value,
+        // lastCheckValue:val,
+        // isMax:value.length===max 
+      }
+    })
+    // setCount(value.length===1 ? 1 :0)
+  }, [value])
+
+
+  function catchNotice(node: INodeProps, opt: any) {
+    if (props.multiple) {
+      if (opt.isCheck) {
+        setValue(v => [...v, node])
+      } else {
+        setValue(oldV => {
+          return oldV.filter(item => item.value !== node.value)
+        })
+      }
+    } else {
+      setValue(opt.isCheck ? [node] : [])
+    }
+    // console.log(opt);
+    // if(opt.isCheck){
+    //     setTreeCtxValue(oldV=>{
+    //       return {
+    //         ...oldV,
+    //         lastCheckValue:oldValue.current
+    //       }
+    //     })
+    // }
+
+    // setSourceData(oldV => {
+    //   let tempData = [...oldV]
+    //   let pos = opt.position || []
+    //   let t = tempData;
+
+    //   pos.forEach((number, idx) => {
+    //     if (idx === pos.length - 1) {
+    //       t[number].isCheck = opt.isCheck
+    //     } else {
+    //       t = t[number].children || []
+    //     }
+    //   })
+
+    //   if (!props.multiple && opt.isCheck && prePosition.length && prePosition !== pos) {
+    //     let d = tempData
+    //     prePosition.forEach((number) => {
+    //       d[number].isCheck = false
+    //       d = d[number].children || []
+    //     })
+    //   }
+    //   setPrePosition(pos)
+    //   // console.log(tempData, 'tempdata');
+    //   return tempData
+    // })
+  }
+
+
+  return <TreeCtx.Provider value={treeCtxValue}>
+
+  <View className={`${styles.tree} ${props.dept?styles.tree_dept :''}`}>
+    {
+      sourceData.map((item, k) => {
+        return <TreeNode
+          key={item.value}
+          {...item}
+          dept={dept.current}
+          onNoticeTreeLeafChange={catchNotice}
+          isShowChildren
+          onSelect={() => setfirstIndex(k)}
+        />
+      })
+    }
+  </View>
+  </TreeCtx.Provider>
+
+  
+ 
+}
+
+export default Tree

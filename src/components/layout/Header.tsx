@@ -3,11 +3,11 @@
  * @Autor: 小明～
  * @Date: 2021-10-21 16:38:59
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-03 16:58:21
+ * @LastEditTime: 2021-11-29 15:32:58
  */
 import React,{useState} from 'react';
-import {Layout,Switch,Drawer,Avatar,Breadcrumb} from 'antd';
-import {SettingOutlined,MenuUnfoldOutlined,MenuFoldOutlined,FullscreenOutlined,FullscreenExitOutlined,HomeOutlined} from '@ant-design/icons';
+import {Layout,Switch,Drawer,Avatar,Breadcrumb,Popconfirm} from 'antd';
+import {SettingOutlined,MenuUnfoldOutlined,LogoutOutlined,MenuFoldOutlined,FullscreenOutlined,FullscreenExitOutlined,HomeOutlined} from '@ant-design/icons';
 import {useSelector,useDispatch} from 'react-redux';
 import { IStore } from '@/typings/redux';
 import { MENU_HIDDEN,MENU_SHOW } from '@/redux/action-type';
@@ -15,7 +15,7 @@ import { SketchPicker } from 'react-color';
 import {toggleScreen} from '@/util/index';
 
 
-import {useLocation} from 'react-router-dom';
+import {useLocation,useHistory} from 'react-router-dom';
 import {Routes} from '@/routes/index';
 import { RouteItem } from '@/typings/route';
 // import {Breadcrumb} from 'antd';
@@ -52,6 +52,7 @@ export default function LayoutHeader(){
     const hiddenMenu = useSelector((state:IStore) => state.hiddenMenu);
     const dispatch = useDispatch();
     const [isShow, setIsShow] = useState(false);
+    const h = useHistory();
     const breadcrump = useBreadcrump();
 
     function toggleHiddenMenu(){
@@ -67,6 +68,10 @@ export default function LayoutHeader(){
         toggleScreen(bool);
         setIsScreen(bool);
     }
+
+    const logout = ()=>{
+        h.push('/login');
+    };
 
     return (
         <Header className="layout-header flex-between">
@@ -105,6 +110,15 @@ export default function LayoutHeader(){
                 <SettingOutlined className="icon-white"
                     onClick={()=>setIsShow(true)} />
                 <Avatar src="https://joeschmoe.io/api/v1/random"  />
+                <Popconfirm
+                    cancelText="取消"
+                    okText="确认"
+                    onConfirm={()=>logout()}
+                    title="您确定要退出系统吗?"
+                >
+                    <LogoutOutlined className="icon-white ml-15"/>
+                </Popconfirm>
+
             </div>
 
             <Drawer

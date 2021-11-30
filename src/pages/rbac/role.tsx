@@ -3,19 +3,16 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:15:28
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-06 15:35:00
+ * @LastEditTime: 2021-11-30 14:34:49
  */
 import React, { useMemo, useState,useEffect, CSSProperties } from 'react';
 import VTable from '@/components/common/v-table';
 import API from '@/api';
 import {Button,Drawer,Checkbox,message,Row,Col} from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import {IAuthItem} from '@/typings/redux';
+import {IAuthItem,IRoleItem} from '@/typings/redux';
 
-type IRoleItem = {
-    id:number;
-    roleName:string;
-}
+
 
 
 type RoleAuth = {
@@ -80,27 +77,6 @@ export default function Role(){
     useEffect(() => {
         API.queryAuthAll().then((res:IAuthItem[]) => {
             setauth(res);
-            // const keys:IKeys ={};
-            // res.forEach(item=>{
-            //     if(item.parentId!==0){
-            //         if(Array.isArray(keys[item.parentId])){
-            //             keys[item.parentId]?.push(item);
-            //         }else{
-            //             keys[item.parentId] = [item];
-            //         }
-            //     }
-            // });
-            // const result:IAuthItem[] =[];
-            // res.forEach(item=>{
-            //     if(Array.isArray(keys[item.id])){
-            //         item.children = keys[item.id];
-            //     }
-            //     if(item.parentId===0){
-            //         result.push(item);
-            //     }
-            // });
-            // console.log(keys);
-            // setauth(result);
         }).catch(() => {
 
         });

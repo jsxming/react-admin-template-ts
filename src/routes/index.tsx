@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-10-22 11:06:45
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-06 11:04:08
+ * @LastEditTime: 2021-11-29 15:15:49
  */
 import React, { lazy } from 'react';
 import { RouteItem } from '@/typings/route';
@@ -16,6 +16,8 @@ const Role = lazy(() => import('@/pages/rbac/role.tsx'));
 const Auth = lazy(() => import('@/pages/rbac/auth.tsx'));
 const User = lazy(() => import('@/pages/rbac/user.tsx'));
 const Test = lazy(() => import('@/pages/Test/index.tsx'));
+const SContext = lazy(() => import('@/pages/study/useContext.tsx'));
+const Reactuse = lazy(() => import('@/pages/study/reactuse/index.tsx'));
 
 
 
@@ -37,19 +39,16 @@ export const Routes:RouteItem[] = [
             {
                 title: '用户管理',
                 path: '/rbac/user',
-                icon: <LaptopOutlined />,
                 component:<User/>,
             },
             {
                 title: '角色管理',
                 path: '/rbac/role',
-                icon: <LaptopOutlined />,
                 component:<Role/>,
             },
             {
                 title: ' 权限管理',
                 path: '/rbac/auth',
-                icon: <LaptopOutlined />,
                 component:<Auth/>,
             },
         ]
@@ -59,7 +58,24 @@ export const Routes:RouteItem[] = [
         path: '/test',
         icon: <LaptopOutlined />,
         component:<Test/>,
-
+    },
+    {
+        title: 'study',
+        path: '/study',
+        icon: <LaptopOutlined />,
+        children:[
+            {
+                title: 'useContext',
+                path: '/study/useContext',
+                component:<SContext/>,
+            },
+            {
+                title: 'React-use',
+                path: '/study/reactuse/index',
+                component:<Reactuse/>,
+            },
+        ]
+        // component:<Test/>,
     }
     // {
     //     title: '文章',

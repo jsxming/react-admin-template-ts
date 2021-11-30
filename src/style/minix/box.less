@@ -1,0 +1,117 @@
+@8: 8px;
+@10: 10px;
+@12: 12px;
+@15: 15px;
+@20: 20px;
+@30: 30px;
+
+@marginTop: {
+    mt-8: @8;
+    mt-10: @10;
+    mt-12: @12;
+    mt-15: @15;
+    mt-20: @20;
+    mt-30: @30;
+}
+
+@marginRight: {
+    mr-8: @8;
+    mr-10: @10;
+    mr-12: @12;
+    mr-15: @15;
+    mr-20: @20;
+    mr-30: @30;
+}
+
+@marginBottom: {
+    mb-8: @8;
+    mb-10: @10;
+    mb-12: @12;
+    mb-15: @15;
+    mb-20: @20;
+    mb-30: @30;
+}
+
+@marginLeft: {
+    ml-8: @8;
+    ml-10: @10;
+    ml-12: @12;
+    ml-15: @15;
+    ml-20: @20;
+    ml-30: @30;
+}
+
+@marginX: {
+    mx-8: @8;
+    mx-10: @10;
+    mx-12: @12;
+    mx-15: @15;
+    mx-20: @20;
+    mx-30: @30;
+}
+
+@marginY: {
+    my-8: @8;
+    my-10: @10;
+    my-12: @12;
+    my-15: @15;
+    my-20: @20;
+    my-30: @30;
+}
+
+each(@marginTop, {
+
+        .@{key} {
+            margin-top:@value;
+        }
+    }
+
+);
+
+each(@marginRight, {
+
+        .@{key} {
+            margin-right:@value;
+        }
+    }
+
+);
+
+each(@marginBottom, {
+
+        .@{key} {
+            margin-bottom:@value;
+        }
+    }
+
+);
+
+each(@marginLeft, {
+
+        .@{key} {
+            margin-left:@value;
+        }
+    }
+
+);
+
+each(@marginY, {
+
+        .@{key} {
+            margin-top:@value;
+            margin-bottom:@value;
+        }
+    }
+
+);
+
+
+each(@marginX, {
+
+        .@{key} {
+            margin-left:@value;
+            margin-right:@value;
+        }
+    }
+
+);

@@ -3,7 +3,7 @@
  * @Autor: 小明～
  * @Date: 2021-11-01 14:52:50
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-06 09:43:40
+ * @LastEditTime: 2021-11-30 14:34:43
  */
 
 
@@ -27,4 +27,9 @@ export interface IStore{
     authPath:string[],
     pageComponentAuth:IComponentAuthCache,
     currentPageComponentAuth:IAuthItem[]
+}
+
+export type IRoleItem = {
+    id:number;
+    roleName:string;
 }

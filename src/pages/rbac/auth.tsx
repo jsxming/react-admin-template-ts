@@ -3,14 +3,16 @@
  * @Autor: 小明～
  * @Date: 2021-11-06 10:46:31
  * @LastEditors: 小明～
- * @LastEditTime: 2021-11-06 17:27:27
+ * @LastEditTime: 2021-11-30 11:48:15
  */
 import React,{useEffect,useState} from 'react';
-import {Button} from 'antd';
+import {Button,Popconfirm,TableColumnType,Modal,Form,Input, notification, message} from 'antd';
 import VTable from '@/components/common/v-table';
+import {DeleteOutlined,EditOutlined} from '@ant-design/icons';
 import API from '@/api';
+import useModalForm from '@/hooks/useModalForm';
 
-function useTable(columns:any[],func:Function){
+function useTable<T>(func:Function,columns:TableColumnType<T>[]){
     const [tableLoading,setTableLoading] = useState(false);
     const [tableData,setTableData] = useState([]);
 
@@ -20,7 +22,7 @@ function useTable(columns:any[],func:Function){
         total: 0
     });
 
-    function getTableData(params:Global.Obj) {
+    function getTableData(params?:Global.Obj) {
         setTableLoading(true);
         const query = {
             ...queryParams,
@@ -44,11 +46,27 @@ function useTable(columns:any[],func:Function){
         queryParams={queryParams}
         tableData={tableData}
     ></VTable>;
-    return [t,getTableData];
+    return {Table:t,getTableData};
+}
+
+
+
+
+console.log(useModalForm);
+interface IAuthRow{
+    id:number
+    label:string;
+    path:string;
+    children?:IAuthRow[];
 }
 
 export default function Auth(){
-    const [Table] = useTable([
+    const [form] = Form.useForm();
+
+
+
+
+    const {Table,getTableData} = useTable<IAuthRow>(API.queryAuthAll,[
         {
             title:'ID',
             dataIndex:'id',
@@ -66,26 +84,96 @@ export default function Auth(){
         },
         {
             title:'操作',
-            render:(v:any)=>{
+            render:(v:IAuthRow)=>{
                 return <div>
 
-                    <Button onClick={()=>{
-                        console.log(v);
-                    }} >修改</Button>
-                    <Button danger
+                    <Button
+                        className="mr-15"
+                        icon={<EditOutlined />}
                         onClick={()=>{
-                            console.log(v);
-                        }} >删除</Button>
+                            open(true,v);
+                        }}
+                        shape="circle"
+                        type="primary" ></Button>
+                    <Popconfirm
+                        cancelText="取消"
+                        okText="确认"
+                        onConfirm={()=>delRow(v)}
+                        title="您确定要删除该行数据吗?"
+                    >
+                        <Button
+                            danger
+                            icon={<DeleteOutlined className="table-icon" />}
+                            shape="circle"
+                            type="primary" >
+
+                        </Button>
+                    </Popconfirm>
+
                 </div>;
             }
         },
-    ],API.queryAuthAll);
+    ]);
+
+    const {visible,open,submit,formdata,close} = useModalForm<IAuthRow>({
+        form:form,
+        update:(values,row)=>{
+            return new Promise(resolve=>{
+                if(typeof row !=='undefined'){
+                    values.id=row.id;
+                }
+                API.updateAuth(values).then(() => {
+                    message.success('修改成功');
+                    getTableData();
+                    resolve(false);
+                }).catch(() => {
+
+                });
+
+            });
+        }
+    });
+
+    function delRow(v:IAuthRow){
+        console.log(v);
+        API.delAuth(v.id).then((res) => {
+            // console.log(res);
+            getTableData();
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
 
     return (
         <>
             {
                 Table
             }
+            <Modal
+                onCancel={close}
+                onOk={()=>{
+                    console.log(123);
+                    form.submit();
+                }}
+                title="修改权限"
+                visible={visible}
+                width={400}
+            >
+                <Form
+                    form={form}
+                    initialValues={formdata}
+                    onFinish={submit}
+                >
+                    <Form.Item label="path"
+                        name="path">
+                        <Input  />
+                    </Form.Item>
+                    <Form.Item label="Label"
+                        name="label">
+                        <Input  />
+                    </Form.Item>
+                </Form>
+            </Modal>
             {/* <VTable
                 columns={columns}
                 getTableData={getTableData}
