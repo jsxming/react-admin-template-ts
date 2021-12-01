@@ -1,4 +1,6 @@
+// eslint-disable-next-line strict
 'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -26,9 +28,9 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const postcssNormalize = require('postcss-normalize');
-
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -673,6 +675,16 @@ module.exports = function (webpackEnv) {
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
             // You can remove this if you don't use Moment.js:
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+            // npm_config_report
+            process.env.npm_config_report && new BundleAnalyzerPlugin(),
+            isEnvProduction &&  new CompressionWebpackPlugin({
+                filename: '[path].gz[query]',
+                algorithm: 'gzip',
+                test: /\.js$|\.css$/,
+                threshold: 10240, // 对超过10k的数据进行压缩
+                minRatio: 0.8, // 只有压缩率小于这个值的资源才会被处理
+            }),
+            // new BundleAnalyzerPlugin(),
             // Generate a service worker script that will precache, and keep up to date,
             // the HTML & assets that are part of the webpack build.
             isEnvProduction &&

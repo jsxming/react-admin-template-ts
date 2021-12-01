@@ -5,8 +5,9 @@
   "private": true,
   "proxy": "http://192.168.0.81:8888/v1",
   "scripts": {
+    "analyz": "node scripts/theme.js && npm_config_report=true GENERATE_SOURCEMAP=false node scripts/build.js",
     "start": "node scripts/theme.js && node scripts/start.js",
-    "build": "node scripts/theme.js && node scripts/build.js",
+    "build": "node scripts/theme.js && GENERATE_SOURCEMAP=false node scripts/build.js",
     "test": "node scripts/test.js",
     "eslint": "eslint src --ext .ts,.tsx"
   },
@@ -33,6 +34,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "compression-webpack-plugin": "5",
     "css-loader": "4.3.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -171,6 +173,7 @@
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "less": "^4.1.1",
-    "less-loader": "7.1.0"
+    "less-loader": "7.1.0",
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }
