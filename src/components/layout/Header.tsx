@@ -74,7 +74,8 @@ export default function LayoutHeader(){
     };
 
     return (
-        <Header className="layout-header flex-between">
+        <Header className="layout-header flex-between"
+            style={{backgroundColor:'#ffffff'}}>
             <div className="flex-start">
                 <p className="toggle-icon"
                     onClick={toggleHiddenMenu}

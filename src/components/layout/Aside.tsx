@@ -116,7 +116,7 @@ export default function VMenu() {
             onOpenChange={onOpenChange}
             openKeys={openKeys}
             style={{ maxWidth:256,minHeight:'100vh' }}
-            theme="dark"
+            theme="light"
         >
             <div style={{
                 height:60,

@@ -29,3 +29,5 @@ declare namespace Global{
 declare interface Window {
     less:any;
 }
+
+declare module  '*.less'

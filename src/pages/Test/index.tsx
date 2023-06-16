@@ -48,10 +48,12 @@ const App = () => {
         console.log(value);
     };
 
-    return <Cascader onChange={onChange}
-        options={options}
-        placeholder="Please select"
-        value={value} />;
+    return <div>
+        <Cascader onChange={onChange}
+            options={options}
+            placeholder="Please select"
+            value={value} />
+    </div>;
 };
 
 
